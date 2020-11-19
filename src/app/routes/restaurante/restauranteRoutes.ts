@@ -84,8 +84,7 @@ export class Restaurante {
       async (req, res, next) => {
         const { id } = req.params
         try {
-          const res = await restauranteService.delete(id)
-          console.log(res)
+          await restauranteService.delete(id)
           next(null)
         } catch (err) {
           next(err)

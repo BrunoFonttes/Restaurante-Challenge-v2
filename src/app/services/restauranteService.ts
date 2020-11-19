@@ -2,12 +2,13 @@ import { RestauranteErrors } from '../utils/errors/restaurante'
 import { CustomError, CommomErrors } from '../utils/errors'
 import { appLogger } from '../config/logger';
 import { query } from '../database';
+import { RestaurantData } from '../utils/schemas/restaurante-data';
 
 export class RestauranteService {
   public constructor() {
 
   }
-  public create = async (nome, endereco, foto:string, horarioDeFuncionamento): Promise<object> => {
+  public create = async (nome, endereco, foto: string, horarioDeFuncionamento): Promise<Object> => {
     try {
       const newRestaurante = {
         nome: nome,
@@ -23,8 +24,24 @@ export class RestauranteService {
         VALUES($1,$2,$3,$4,$5,$6,$7) 
         RETURNING *`,
         Object.values(newRestaurante))
-      rows[0].foto = rows[0].foto.toString()
-      return rows[0]
+      const row = rows[0]
+      const restaurante: RestaurantData = {
+        id: row.id,
+        nome: row.nome,
+        endereco: row.endereco,
+        foto: row.foto.toString(),
+        horarioDeFuncionamento: {
+          segsex: {
+            abertura: row.seg_sex_abertura.slice(0, 5),
+            fechamento: row.seg_sex_fechamento.slice(0, 5)
+          },
+          fimDeSemana: {
+            abertura: row.fim_de_semana_abertura.slice(0, 5),
+            fechamento: row.fim_de_semana_fechamento.slice(0, 5)
+          }
+        }
+      }
+      return restaurante
     } catch (err) {
       if (err.code === '23505') {
         const error = new RestauranteErrors('Erro ao cadastrar um restaurante já existente').AlreadyExists()
@@ -43,8 +60,24 @@ export class RestauranteService {
     if (rows.length === 0) {
       throw new RestauranteErrors('Restaurante não encontrado').NotFound()
     }
-    rows[0].foto = rows[0].foto.toString()
-    return rows[0]
+    const row = rows[0]
+    const restaurante: RestaurantData = {
+      id: row.id,
+      nome: row.nome,
+      endereco: row.endereco,
+      foto: row.foto.toString(),
+      horarioDeFuncionamento: {
+        segsex: {
+          abertura: row.seg_sex_abertura.slice(0, 5),
+          fechamento: row.seg_sex_fechamento.slice(0, 5)
+        },
+        fimDeSemana: {
+          abertura: row.fim_de_semana_abertura.slice(0, 5),
+          fechamento: row.fim_de_semana_fechamento.slice(0, 5)
+        }
+      }
+    }
+    return restaurante
   }
 
   public delete = async (id) => {
@@ -61,13 +94,29 @@ export class RestauranteService {
 
   public listAll = async (): Promise<object> => {
     const { rows } = await query('SELECT * FROM restaurante')
-    rows.forEach(row => {
-      row.foto = row.foto.toString()
-    });
-    return rows
+    const restaurantes = rows.map(row => {
+      return {
+        id: row.id,
+        nome: row.nome,
+        endereco: row.endereco,
+        foto: row.foto.toString(),
+        horarioDeFuncionamento: {
+          segsex: {
+            abertura: row.seg_sex_abertura.substring(0, 5),
+            fechamento: row.seg_sex_fechamento.substring(0, 5)
+          },
+          fimDeSemana: {
+            abertura: row.fim_de_semana_abertura.substring(0, 5),
+            fechamento: row.fim_de_semana_fechamento.substring(0, 5)
+          }
+        }
+      }
+    })
+    appLogger.debug(restaurantes)
+    return restaurantes
   }
 
-  public update = async (id, nome, endereco, foto, horarioDeFuncionamento): Promise<object> => {
+  public update = async (id, nome, endereco, foto, horarioDeFuncionamento): Promise<void> => {
     try {
       const newRestaurante = {
         nome: nome,
@@ -89,26 +138,25 @@ export class RestauranteService {
           fim_de_semana_fechamento = $8
         WHERE id=$1 RETURNING *`,
         [id].concat(Object.values(newRestaurante)))
-
-
-
       if (rows.length === 0) {
         throw new RestauranteErrors('Restaurante não encontrado').NotFound()
       }
-      rows[0].foto = rows[0].foto.toString()
-      return rows
     }
     catch (err) {
       if (err.code === '42883') {
         throw new RestauranteErrors('Restaurante não encontrado').NotFound()
       }
+      if (err.code === '23505') {
+        throw new RestauranteErrors('Os dados informados já pertencem a outro restaurante').AlreadyExists()
+      }
       if (err.name === 'INVALID_BASE64') {
         throw err
       }
-      if(err.name ==='NOT_FOUND'){
+      if (err.name === 'NOT_FOUND') {
         throw err
       }
-      throw new CustomError('Erro ao criar restaurante no bd', "Erro interno")
+      appLogger.debug(err)
+      throw new CustomError('Erro ao atualizar restaurante no bd', "Erro interno")
     }
   }
 

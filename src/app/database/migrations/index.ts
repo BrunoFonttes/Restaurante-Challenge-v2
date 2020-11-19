@@ -3,6 +3,7 @@ import { query } from '../'
 import { restaurante } from './restaurante'
 import { MigrationData } from './migration-data'
 import { setup } from './setup'
+import { produto } from './produto'
 const executeQuery = async (queryText, entidade, operation) => {
     await query(queryText)
     console.log(`====================[${entidade}] Migrate ${operation} executado com sucesso====================`)
@@ -22,6 +23,7 @@ const executeMigration = async (entidade: MigrationData) => {
 const run = async()=>{
     await query(setup.text)
     await executeMigration(restaurante)
+    await executeMigration(produto)
 }
 
 run()

@@ -1,0 +1,131 @@
+tags:
+  name: Restaurantes
+  description: Gestão de Restaurantes
+path:
+  /restaurantes:
+    post:
+      summary: Cria um novo restaurante
+      tags: [Restaurantes]
+      security:
+        - Private: []
+      parameters:
+        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/AcceptCharset"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Restaurante"
+      responses:
+        "201":
+          description: Registro do restaurante criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/RestaurantePost"
+        "400":
+          description: Erro na sintaxe ou semântica da requisição
+        "406":
+          description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
+        "422":
+          description: Erro ao cadastrar restaurante já existente
+        "500":
+          description: Erro interno, favor entrar em contato com a Goomer
+    get:
+      summary: Retorna as restaurantes cadastradas
+      description: Retorna uma lista contendo todos os restaurantes cadastrados
+      tags: [Restaurantes]
+      security:
+        - Private: []
+      parameters:
+        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/AcceptCharset"
+      responses:
+        "200":
+          description: Lista de Restaurantes cadastrados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/RestauranteListAll"
+        "304":
+          description: Os dados armazenados em cache são válidos. o recurso não sofreu alteração. (Etag/If-None-Match).
+        "400":
+          description: Erro na sintaxe ou semântica da requisição
+        "406":
+          description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
+        "500":
+          description: Erro interno, favor entrar em contato com a Goomer
+  /restaurantes/{id}:
+    get:
+      summary: Consulta um restaurante pelo Id
+      tags: [Restaurantes]
+      security:
+        - Private: []
+      parameters:
+        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/AcceptCharset"
+        - $ref: "#/components/parameters/IdRestaurante"
+      responses:
+        "200":
+          description: O restaurante especificado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/RestauranteListById"
+        "304":
+          description: Os dados armazenados em cache são válidos. o recurso não sofreu alteração. (Etag/If-None-Match).
+        "400":
+          description: Erro na sintaxe ou semântica da requisição
+        "404":
+          "description": Restaurante não encontrada
+        "406":
+          description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
+        "500":
+          description: Erro interno, favor entrar em contato com a Goomer
+    put:
+      summary: Atualiza os dados cadastrais de um restaurante
+      tags: [Restaurantes]
+      security:
+        - Private: []
+      parameters:
+        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/AcceptCharset"
+        - $ref: "#/components/parameters/IdRestaurante"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Restaurante"
+      responses:
+        "204":
+          description: O restaurante foi atualizado sucesso.
+        "400":
+          description: Erro na sintaxe ou semântica da requisição
+        "404":
+          description: Restaurante não encontrado
+        "406":
+          description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
+        "500":
+          description: Erro interno, favor entrar em contato com a Goomer
+    delete: 
+      summary: Exclui um restaurante
+      tags: [Restaurantes]
+      security:
+        - Private: []
+      parameters:
+        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/AcceptCharset"
+        - $ref: "#/components/parameters/IdRestaurante"
+      responses:
+        "204":
+          description: O restaurante foi excluído com sucesso.
+        "400":
+          description: Erro na sintaxe ou semântica da requisição
+        "404":
+          description: Restaurante não encontrado
+        "406":
+          description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
+        "500":
+          description: Erro interno, favor entrar em contato com a Goomer

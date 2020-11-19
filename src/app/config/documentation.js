@@ -62,7 +62,7 @@ const options = {
   swaggerDefinition,
   apis: [
     // './docs/produto/*.yaml',
-    './docs/loja/*.yaml',
+    './docs/restaurante/*.yaml',
     './docs/*.yaml',
   ]
 }

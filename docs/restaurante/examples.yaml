@@ -1,0 +1,26 @@
+components:
+  examples:
+    Loja:
+      summary: "Um exemplo de loja"
+      value: { "cdComponente": "12345", "nome": posto favorito' }
+    ResponsePostLoja:
+      summary: "Um exemplo de loja"
+      value:
+        {
+          "cdComponente": "12345",
+          "nome": "posto favorito",
+          "ativo": true
+        }
+    ListaDeLojas:
+      summary: "Um exemplo de produto sem categoria"
+      value:
+        [
+          {
+            "cdComponente": "12345",
+            "nome": "posto favorito"
+          },
+          {
+           "cdComponente": "64321",
+            "nome": "posto do zé"
+          },
+        ]

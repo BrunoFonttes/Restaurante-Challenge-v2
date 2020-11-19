@@ -1,0 +1,13 @@
+
+components:
+  parameters:
+    IdRestaurante:
+      in: path
+      description: Identificador do restaurante na aplicação
+      name: id
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: '3ac298b2-dc0e-4be2-9551-77bf177f625b'
+    

@@ -1,0 +1,21 @@
+
+components:
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      description: Indica o tipo de resposta suportado pelo cliente
+      required: true
+      schema:
+        type: string
+        enum: [ application/json]
+        DefaultValue: application/json
+    AcceptCharset:
+      name: Accept-Charset
+      in: header
+      description: Indica o tipo de encoding da resposta suportado pelo cliente
+      required: true
+      schema:
+        type: string
+        enum: [utf-8]
+        DefaultValue: utf-8

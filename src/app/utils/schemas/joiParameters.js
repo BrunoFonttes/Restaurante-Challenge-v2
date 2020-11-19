@@ -22,22 +22,23 @@ const promocaoProdutoJoi = {
   tempoDuracaoEmDias: Joi.number().min(1).description('Tempo em dias de duracao da promoção').required(),
 }
 
+const horarioDeFuncionamentoDeUmDia = Joi.object().keys({
+  abertura: shared.horario.description('Horário de abertura da loja').required(),
+  fechamento: shared.horario.description('Horário de fechamento da loja').required()
+})
+
+const horarioDeFuncionamentoJoi = Joi.object().keys({
+  segsex: horarioDeFuncionamentoDeUmDia.description('Horario de funcionamento em dias de semana(seg-sex)').required(),
+  fimDeSemana: horarioDeFuncionamentoDeUmDia.description('Horario de funcionamento em fins de semana(sab-dom)').required()
+})
 
 const restauranteJoi = {
   nome: Joi.string().description('Nome da loja').required(),
   endereco: Joi.string().min(3).description('Endereço da loja').required(),
   foto: shared.foto.description('Imagem da loja').required(),
-  horarioDeFuncionamento:Joi.object().keys({
-    segsex: Joi.object().keys({
-      abertura: shared.horario.description('Horário de abertura da loja').required(),
-      fechamento: shared.horario.description('Horário de fechamento da loja').required()
-    }).description('Horario de funcionamento em dias de semana(seg-sex)').required(),
-    fimDeSemana: Joi.object().keys({
-      abertura: shared.horario.description('Horário de abertura da loja').required(),
-      fechamento: shared.horario.description('Horário de fechamento da loja').required()
-    }).description('Horario de funcionamento em fins de semana(sab-dom)').required()
-  }).description('Horario de funcionamento do restaurante').required()
+  horarioDeFuncionamento: horarioDeFuncionamentoJoi.description('Horario de funcionamento do restaurante').required()
 }
+
 module.exports = {
   Joi,
   produtoJoi,

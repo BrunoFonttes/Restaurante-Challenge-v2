@@ -1,0 +1,13 @@
+node_modules
+.scannerwork
+.env.dev
+.env
+.env.cloud
+my_env.list
+.vscode
+.env.test
+.env.cloud
+aws/backupparameters.json
+__tests__/database.sqlite
+swagger.json
+*dist*

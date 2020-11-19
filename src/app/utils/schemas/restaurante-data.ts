@@ -1,16 +1,17 @@
-export interface RestaurantData{
-    id?:string,
+export interface RestaurantData {
+    id?: string,
     nome: string,
     endereco: string,
     foto: string,
-    horarioDeFuncionamento:{
-      segsex: {
-        abertura: string,
-        fechamento: string
-      },
-      fimDeSemana: {
-        abertura: string,
-        fechamento: string
-      }
-    }
+    horarioDeFuncionamento: HorarioDeFuncionamentoData
+}
+
+interface HorarioDeFuncionamentoData {
+    segsex: HorarioDeFuncionamentoUmDiaData,
+    fimDeSemana: HorarioDeFuncionamentoUmDiaData
+}
+
+interface HorarioDeFuncionamentoUmDiaData {
+    abertura: string,
+    fechamento: string
 }

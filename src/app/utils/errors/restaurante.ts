@@ -18,4 +18,8 @@ export class RestauranteErrors {
   public NotFound (): CustomError {
     return new CustomError(this.message, 'NOT_FOUND')
   }
+
+  public HorarioDeFuncionamentoNaoPermitido(): CustomError {
+    return new CustomError(this.message, 'HORARIO_NAO_PERMITIDO')
+  }
 }

@@ -15,5 +15,6 @@ httpErrors.set('BAD_ACCEPT_HEADER', httpStatus.NOT_ACCEPTABLE)
 httpErrors.set('NOT_FOUND', httpStatus.NOT_FOUND)
 httpErrors.set('ALREADY_EXISTS', httpStatus.UNPROCESSABLE_ENTITY)
 httpErrors.set('DISABLED', httpStatus.UNPROCESSABLE_ENTITY)
+httpErrors.set('HORARIO_NAO_PERMITIDO', httpStatus.UNPROCESSABLE_ENTITY)
 
 export { httpErrors }

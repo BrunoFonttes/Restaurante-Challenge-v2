@@ -3,6 +3,7 @@ import { CustomError, CommomErrors } from '../utils/errors'
 import { appLogger } from '../config/logger';
 import { query } from '../database';
 import { RestaurantData } from '../utils/schemas/restaurante-data';
+import { validaHorarioDeFuncionamentoUmDia } from './validators/horarioDeFuncionamentoUmDia';
 
 export class RestauranteService {
   public constructor() {
@@ -10,6 +11,8 @@ export class RestauranteService {
   }
   public create = async (nome, endereco, foto: string, horarioDeFuncionamento): Promise<Object> => {
     try {
+      validaHorarioDeFuncionamentoUmDia(horarioDeFuncionamento.segsex)
+      validaHorarioDeFuncionamentoUmDia(horarioDeFuncionamento.fimDeSemana)
       const newRestaurante = {
         nome: nome,
         endereco: endereco,
@@ -47,7 +50,7 @@ export class RestauranteService {
         const error = new RestauranteErrors('Erro ao cadastrar um restaurante já existente').AlreadyExists()
         throw error
       }
-      if (err.name === 'INVALID_BASE64') {
+      if (err.name === 'INVALID_BASE64' || err.name === 'HORARIO_NAO_PERMITIDO') {
         throw err
       }
       appLogger.debug(err)
@@ -118,6 +121,8 @@ export class RestauranteService {
 
   public update = async (id, nome, endereco, foto, horarioDeFuncionamento): Promise<void> => {
     try {
+      validaHorarioDeFuncionamentoUmDia(horarioDeFuncionamento.segsex)
+      validaHorarioDeFuncionamentoUmDia(horarioDeFuncionamento.fimDeSemana)
       const newRestaurante = {
         nome: nome,
         endereco: endereco,
@@ -149,7 +154,7 @@ export class RestauranteService {
       if (err.code === '23505') {
         throw new RestauranteErrors('Os dados informados já pertencem a outro restaurante').AlreadyExists()
       }
-      if (err.name === 'INVALID_BASE64') {
+      if (err.name === 'INVALID_BASE64' || err.name === 'HORARIO_NAO_PERMITIDO') {
         throw err
       }
       if (err.name === 'NOT_FOUND') {

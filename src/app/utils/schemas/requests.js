@@ -5,12 +5,9 @@ const {
   produtoJoi
 } = require('./joiParameters')
 
-const idRestaurante = Joi.object().keys({
-  id: shared.id.description('Identificador do restaurante dentro da aplicação')
-})
-const idProduto = Joi.object().keys({
-  id: shared.id.description('Identificador do produto dentro da aplicação')
-})
+const idRestaurante = shared.id.description('Identificador do restaurante dentro da aplicação').required()
+
+const idProduto = shared.id.description('Identificador do produto dentro da aplicação').required()
 
 const sharedSchema = {
   restaurante: {
@@ -37,27 +34,33 @@ const restauranteRequest = {
   },
   put: {
     body: sharedSchema.restaurante.postOrPutBody,
-    params: idRestaurante
+    params: Joi.object().keys({ id: idRestaurante })
   },
   getById: {
-    params: idRestaurante
+    params: Joi.object().keys({ id: idRestaurante })
   },
   delete: {
-    params: idRestaurante
+    params: Joi.object().keys({ id: idRestaurante })
   }
 }
 
 const produtoRequest = {
   post: {
     body: sharedSchema.produto.postOrPutBody,
-    params: idProduto
+    params: Joi.object().keys({ idRestaurante })
   },
   put: {
     body: sharedSchema.produto.postOrPutBody,
-    params: idProduto
+    params: Joi.object().keys({ idProduto })
+  },
+  delete: {
+    params: Joi.object().keys({ idProduto })
   },
   getById: {
-    params: idProduto
+    params: Joi.object().keys({ idProduto })
+  },
+  getByRestaurante: {
+    params: Joi.object().keys({ idRestaurante })
   }
 }
 module.exports = {

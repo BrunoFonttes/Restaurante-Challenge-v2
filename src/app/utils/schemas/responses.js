@@ -7,8 +7,8 @@ const {
   shared
 } = require('./joiParameters')
 
-const idRestaurante = shared.id.description('Identificador do restaurante dentro da aplicação')
-const idProduto = shared.id.description('Identificador do restaurante dentro da aplicação')
+const idRestaurante = shared.id.description('Identificador do restaurante dentro da aplicação').required()
+const idProduto = shared.id.description('Identificador do restaurante dentro da aplicação').required()
 
 const sharedSchema = {
   restaurante: {
@@ -22,7 +22,7 @@ const sharedSchema = {
   },
   produto: {
     body: Joi.object().keys({
-      idProduto: idProduto,
+      id: idProduto,
       idRestaurante: idRestaurante,
       nome: produtoJoi.nome,
       foto: produtoJoi.foto,
@@ -34,9 +34,6 @@ const sharedSchema = {
 const restauranteResponse = {
 
   post: {
-    body: sharedSchema.restaurante.postOrPutBody
-  },
-  put: {
     body: sharedSchema.restaurante.postOrPutBody
   },
   get: {
@@ -67,17 +64,42 @@ const produtoResponse = {
   post: {
     body: sharedSchema.produto.body
   },
-  put: {
-    body: sharedSchema.restaurante.postOrPutBody
-  },
-  get: {
+  getAll: {
     body: Joi.array().items(
-      sharedSchema.produto.body
+      Joi.object().keys({
+        id: idProduto,
+        idRestaurante: idRestaurante,
+        restaurante: restauranteJoi.nome,
+        nome: produtoJoi.nome,
+        foto: produtoJoi.foto,
+        preco: produtoJoi.preco,
+        categoria: produtoJoi.categoria
+      })
+    )
+  },
+
+  getByRestaurante: {
+    body: Joi.array().items(
+      Joi.object().keys({
+        id: idProduto,
+        nome: produtoJoi.nome,
+        foto: produtoJoi.foto,
+        preco: produtoJoi.preco,
+        categoria: produtoJoi.categoria
+      })
     )
   },
 
   getById: {
-    body: sharedSchema.produto.body
+    body: Joi.object().keys({
+      id: idProduto,
+      idRestaurante: idRestaurante,
+      restaurante: restauranteJoi.nome,
+      nome: produtoJoi.nome,
+      foto: produtoJoi.foto,
+      preco: produtoJoi.preco,
+      categoria: produtoJoi.categoria
+    })
 
   }
 }

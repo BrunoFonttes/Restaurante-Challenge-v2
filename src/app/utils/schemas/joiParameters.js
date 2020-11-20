@@ -4,7 +4,7 @@ const JoiDate = require('@hapi/joi-date')
 const Joi = JoiBase.extend(JoiDate)
 
 const shared = {
-  preco: Joi.string(),
+  preco: Joi.number().precision(2),
   foto: Joi.string().dataUri(),
   id: Joi.string().guid().description('Identificador da entidade'),
   horario: Joi.date().format('HH:mm')
@@ -12,7 +12,7 @@ const shared = {
 const produtoJoi = {
   nome: Joi.string().min(3).max(50).required().description('Nome do produto').required(),
   foto: shared.foto.description('Imagem do produto').required(),
-  preco: shared.preco.required(),
+  preco: shared.preco.description('Preço do produto').required(),
   categoria: Joi.string().min(3).max(50).required().description('categoria').required()
 }
 

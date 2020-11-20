@@ -1,12 +1,13 @@
-
-
 const {
   Joi,
   restauranteJoi,
-  shared
+  shared,
+  produtoJoi
 } = require('./joiParameters')
 
-const idRestaurante = shared.id.description('Identificador do restaurante dentro da aplicação')
+const idRestaurante = Joi.object().keys({
+  id: shared.id.description('Identificador do restaurante dentro da aplicação')
+})
 
 const sharedSchema = {
   restaurante: {
@@ -22,20 +23,19 @@ const sharedSchema = {
 const restauranteRequest = {
   post: {
     body: sharedSchema.restaurante.postOrPutBody
-  }
-  ,
+  },
   put: {
     body: sharedSchema.restaurante.postOrPutBody,
-    params: Joi.object().keys({
-      id: idRestaurante
-    })
+    params: idRestaurante
   },
   getById: {
-    params: Joi.object().keys({
-      id: idRestaurante
-    })
+    params: idRestaurante
+  },
+  delete: {
+    params: idRestaurante
   }
 }
+
 module.exports = {
   restauranteRequest
 }

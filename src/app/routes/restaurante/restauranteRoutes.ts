@@ -81,6 +81,7 @@ export class Restaurante {
     )
 
     router.delete('/:id',
+      this.inputValidator(this.requestSchema.delete.params, 'params'),
       async (req, res, next) => {
         const { id } = req.params
         try {

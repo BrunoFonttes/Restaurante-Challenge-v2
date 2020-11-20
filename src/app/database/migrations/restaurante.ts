@@ -15,6 +15,6 @@ CREATE TABLE IF NOT EXISTS restaurante (
 );
 `,
 	destroyTableText: `
-DROP TABLE IF EXISTS restaurante;
+DROP TABLE IF EXISTS restaurante CASCADE;
 `
 }

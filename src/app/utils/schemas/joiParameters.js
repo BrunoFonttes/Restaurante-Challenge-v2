@@ -12,7 +12,8 @@ const shared = {
 const produtoJoi = {
   nome: Joi.string().min(3).max(50).required().description('Nome do produto').required(),
   foto: shared.foto.description('Imagem do produto').required(),
-  preco: shared.preco.required()
+  preco: shared.preco.required(),
+  categoria: Joi.string().min(3).max(50).required().description('categoria').required()
 }
 
 const promocaoProdutoJoi = {

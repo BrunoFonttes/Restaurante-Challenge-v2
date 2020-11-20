@@ -45,15 +45,17 @@ const swaggerDefinition = {
   components: {
     schemas: {
       Restaurante: joiToSwagger(req.restauranteRequest.post.body),
+      Produto: joiToSwagger(req.produtoRequest.post.body)
     },
     responses: {
-      RestaurantePost: joiToSwagger(res.restauranteResponse.post),
-      RestauranteListAll:joiToSwagger(res.restauranteResponse.get),
-      RestauranteListById:joiToSwagger(res.restauranteResponse.getById),
-      RestaurantePut: joiToSwagger(res.restauranteResponse.put)
-    },
-    parameters: {
-      IdRestaurante: joiToSwagger(req.restauranteRequest.getById.params)
+      RestaurantePost: joiToSwagger(res.restauranteResponse.post.body),
+      RestauranteListAll:joiToSwagger(res.restauranteResponse.get.body),
+      RestauranteListById:joiToSwagger(res.restauranteResponse.getById.body),
+
+      ProdutoPost: joiToSwagger(res.produtoResponse.post.body),
+      ProdutoListAll: joiToSwagger(res.produtoResponse.getAll.body),
+      ProdutoListById: joiToSwagger(res.produtoResponse.getById.body), 
+      ProdutoListByRestaurant: joiToSwagger(res.produtoResponse.getByRestaurante.body)
     }
   }
 }
@@ -61,8 +63,8 @@ const swaggerDefinition = {
 const options = {
   swaggerDefinition,
   apis: [
-    // './docs/produto/*.yaml',
     './docs/restaurante/*.yaml',
+    './docs/produto/*.yaml',
     './docs/*.yaml',
   ]
 }

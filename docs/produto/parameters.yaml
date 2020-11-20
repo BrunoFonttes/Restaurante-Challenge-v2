@@ -1,13 +1,12 @@
 
 components:
   parameters:
-    IdRestaurante:
+    IdProduto:
       in: path
-      description: Identificador do restaurante na aplicação
-      name: idRestaurante
+      description: Identificador do produto na aplicação
+      name: idProduto
       required: true
       schema:
         type: string
         format: uuid
         example: '3ac298b2-dc0e-4be2-9551-77bf177f625b'
-    

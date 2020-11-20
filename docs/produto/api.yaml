@@ -1,0 +1,185 @@
+path:
+  /restaurantes/{idRestaurante}/produtos:
+    post:
+      summary: Cria um novo produto
+      tags: [Restaurantes]
+      parameters:
+        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/AcceptCharset"
+        - $ref: "#/components/parameters/IdRestaurante"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Produto"
+      responses:
+        "201":
+          description: Registro do Produto criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/ProdutoPost"
+        "400":
+          description: Erro na sintaxe ou semântica da requisição
+        "403":
+          description: API Key ausente ou inválida
+        "404":
+          description: Categoria não cadastrada
+        "406":
+          description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
+        "422":
+          description: Erro ao cadastrar produto já existente | Categoria inativa
+        "500":
+          description: Erro interno, favor entrar em contato com a Goomer
+    get:
+      summary: Retorna produtos cadastrados
+      description: Retorna uma lista contendo todos os Produto cadastrados
+      tags: [Restaurantes]
+      parameters:
+        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/AcceptCharset"
+        - $ref: "#/components/parameters/IdRestaurante"
+      responses:
+        "200":
+          description: Lista de Produto cadastrados
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/ProdutoListAll"
+        "304":
+          description: Os dados armazenados em cache são válidos. o recurso não sofreu alteração. (Etag/If-None-Match).
+        "400":
+          description: Erro na sintaxe ou semântica da requisição
+        "403":
+          "description": API Key ausente ou inválida
+        "406":
+          description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
+        "500":
+          description: Erro interno, favor entrar em contato com a Goomer
+  /restaurantes/{idRestaurante}/produtos/{idProduto}:
+     get:
+      summary: Retorna produtos cadastrados
+      description: Retorna uma lista contendo todos os produtos cadastrados de um restaurante
+      tags: [Restaurantes]
+      parameters:
+        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/AcceptCharset"
+        - $ref: "#/components/parameters/IdRestaurante"
+        - $ref: "#/components/parameters/idProduto"
+      responses:
+        "200":
+          description: Lista de produtos cadastrados de um restaurante
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/ProdutoListByRestaurante"
+        "304":
+          description: Os dados armazenados em cache são válidos. o recurso não sofreu alteração. (Etag/If-None-Match).
+        "400":
+          description: Erro na sintaxe ou semântica da requisição
+        "403":
+          "description": API Key ausente ou inválida
+        "406":
+          description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
+        "500":
+          description: Erro interno, favor entrar em contato com a Goomer
+  /restaurantes/produtos/{idProduto}:
+    get:
+      summary: Retorna um produto a partir do identificador na aplicação
+      tags: [Restaurantes]
+      parameters:
+        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/AcceptCharset"
+        - $ref: "#/components/parameters/IdProduto"
+      responses:
+        "200":
+          description: O produto requisitado através do id do produto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/ProdutoListById"
+        "304":
+          description: Os dados armazenados em cache são válidos. o recurso não sofreu alteração. (Etag/If-None-Match).
+        "400":
+          description: Erro na sintaxe ou semântica da requisição
+        "403":
+          "description": API Key ausente ou inválida
+        "404":
+          description: Produto não encontrado
+        "406":
+          description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
+        "500":
+          description: Erro interno, favor entrar em contato com a Goomer
+    put:
+      summary: Atualiza o estado de um produto pré-cadastrado.
+      tags: [Restaurantes]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Produto"
+      parameters:
+        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/AcceptCharset"
+        - $ref: "#/components/parameters/IdProduto"
+      responses:
+        "204":
+          description: O produto foi ativado com sucesso.
+        "400":
+          description: Erro na sintaxe ou semântica da requisição
+        "403":
+          "description": API Key ausente ou inválida
+        "404":
+          description: Não é possível ativar ou inativar um produto não cadastrado| Não é possível associar um produto a uma categoria não cadastrada
+        "422":
+          description: Não é possível associar um produto a uma categoria inativa.
+        "406":
+          description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
+        "500":
+          description: Erro interno, favor entrar em contato com a Goomer
+    delete: 
+      summary: Exclui um produto
+      tags: [Restaurantes]
+      parameters:
+        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/AcceptCharset"
+        - $ref: "#/components/parameters/IdProduto"
+      responses:
+        "204":
+          description: O produto foi excluído com sucesso.
+        "400":
+          description: Erro na sintaxe ou semântica da requisição
+        "404":
+          description: Restaurante não encontrado
+        "406":
+          description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
+        "500":
+          description: Erro interno, favor entrar em contato com a Goomer
+  /restaurantes/produtos:
+    get:
+      summary: Retorna todos os produtos
+      tags: [Restaurantes]
+      parameters:
+        - $ref: "#/components/parameters/Accept"
+        - $ref: "#/components/parameters/AcceptCharset"
+      responses:
+        "200":
+          description: O produto requisitado através do id do produto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/ProdutoListAll"
+        "304":
+          description: Os dados armazenados em cache são válidos. o recurso não sofreu alteração. (Etag/If-None-Match).
+        "400":
+          description: Erro na sintaxe ou semântica da requisição
+        "403":
+          "description": API Key ausente ou inválida
+        "404":
+          description: Produto não encontrado
+        "406":
+          description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
+        "500":
+          description: Erro interno, favor entrar em contato com a Goomer

@@ -6,8 +6,6 @@ path:
     post:
       summary: Cria um novo restaurante
       tags: [Restaurantes]
-      security:
-        - Private: []
       parameters:
         - $ref: "#/components/parameters/Accept"
         - $ref: "#/components/parameters/AcceptCharset"
@@ -36,8 +34,6 @@ path:
       summary: Retorna as restaurantes cadastradas
       description: Retorna uma lista contendo todos os restaurantes cadastrados
       tags: [Restaurantes]
-      security:
-        - Private: []
       parameters:
         - $ref: "#/components/parameters/Accept"
         - $ref: "#/components/parameters/AcceptCharset"
@@ -56,12 +52,10 @@ path:
           description: O valor do header HTTP Accept-Charset deve ser utf-8/O cliente deve suportar receber respostas do tipo application/json
         "500":
           description: Erro interno, favor entrar em contato com a Goomer
-  /restaurantes/{id}:
+  /restaurantes/{idRestaurante}:
     get:
       summary: Consulta um restaurante pelo Id
       tags: [Restaurantes]
-      security:
-        - Private: []
       parameters:
         - $ref: "#/components/parameters/Accept"
         - $ref: "#/components/parameters/AcceptCharset"
@@ -86,8 +80,6 @@ path:
     put:
       summary: Atualiza os dados cadastrais de um restaurante
       tags: [Restaurantes]
-      security:
-        - Private: []
       parameters:
         - $ref: "#/components/parameters/Accept"
         - $ref: "#/components/parameters/AcceptCharset"
@@ -112,8 +104,6 @@ path:
     delete: 
       summary: Exclui um restaurante
       tags: [Restaurantes]
-      security:
-        - Private: []
       parameters:
         - $ref: "#/components/parameters/Accept"
         - $ref: "#/components/parameters/AcceptCharset"

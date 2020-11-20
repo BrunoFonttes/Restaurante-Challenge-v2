@@ -13,7 +13,7 @@ const responseHandler = () => {
             case 'PUT':
                 res.status(204).send()
                 break
-            case 'PATCH':
+            case 'DELETE':
                 res.status(204).send()
                 break
             default:

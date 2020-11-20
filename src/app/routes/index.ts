@@ -8,11 +8,11 @@ import { swaggerSpecs } from '../config/documentation'
 import { Restaurante } from './restaurante/restauranteRoutes'
 
 import {
-  restauranteRequest
+  restauranteRequest, produtoRequest
 } from '../utils/schemas/requests'
 
 import {
-  restauranteResponse
+  restauranteResponse, produtoResponse
 } from '../utils/schemas/responses'
 
 import {
@@ -23,6 +23,7 @@ import {
 import { RouterFactory } from '../utils/factory/routerFactory'
 import { appLogger } from '../config/logger'
 import { CommomErrors } from '../utils/errors'
+import { Produto } from './restaurante/produto/produtoRoutes'
 
 
 const commomDependencies = {
@@ -31,6 +32,7 @@ const commomDependencies = {
 }
 
 const restaurante: Restaurante = RouterFactory(Restaurante, commomDependencies, { req: restauranteRequest, res: restauranteResponse })
+const produto: Produto = RouterFactory(Produto, commomDependencies, { req: produtoRequest, res: produtoResponse })
 
 var whitelist = ['*']
 
@@ -48,10 +50,10 @@ const corsOptions = {
 
 class Routes {
   public express: express.Application
-
+  public expressNvl2: express.Application
   public constructor() {
     this.express = express()
-    // this.expressNvl2 = express()
+    this.expressNvl2 = express()
     // this.expressNvl3 = express()
     this.routes()
     // this.getRoutes()
@@ -64,17 +66,9 @@ class Routes {
     }
     this.express.use(cors())
     this.express.use('/restaurantes',
-      // this.expressNvl2.use('/dispositivos', dispositivo.router),
+      this.expressNvl2.use('/', produto.router),
       restaurante.router
-    ) 
-    // this.express.use('/public',
-    //   this.expressPublicNvl2.use('/lojas',
-    //     this.expressPublicNvl3.use('/dispositivos',
-    //       this.expressPublicNvl4.use('/pedidos', pedido.publicRouter),
-    //       dispositivo.publicRouter
-    //     )
-    //   ),
-    // )
+    )
     if (process.env.ENV === 'DEV') { this.express.get('/documentation', (req, res) => { res.status(200).json(swaggerSpecs) }) }
   }
 }
